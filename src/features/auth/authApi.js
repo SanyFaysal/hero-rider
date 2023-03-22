@@ -31,10 +31,18 @@ const authApi = apiSlice.injectEndpoints({
       providesTags: ["User"],
     }),
     getAllUsers: builder.query({
-      query: ({ page, limit }) => ({
+      query: ({ page, limit, selectedUser }) => ({
         url: `/user/all?page=${page}&limit=${limit}`,
       }),
       providesTags: ["Users"],
+    }),
+    updateUsersRole: builder.mutation({
+      query: (data) => ({
+        url: "/user/all",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
@@ -44,4 +52,5 @@ export const {
   useLoginMutation,
   useGetAllUsersQuery,
   useGetMeQuery,
+  useUpdateUsersRoleMutation,
 } = authApi;

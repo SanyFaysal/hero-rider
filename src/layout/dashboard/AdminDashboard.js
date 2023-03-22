@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useGetAllUsersQuery } from "../../features/auth/authApi";
+import {
+  useGetAllUsersQuery,
+  useUpdateUsersRoleMutation,
+} from "../../features/auth/authApi";
 import DashboardRow from "../../components/DashboardRow";
 import Pagination from "../../components/Pagination";
 import { FiSearch } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 export default function AdminDashboard() {
   const [pagination, setPagination] = useState();
+  const [select, setSelect] = useState([]);
   const [filter, setFilter] = useState({
     search: "",
     ageRange: "",
@@ -20,7 +25,21 @@ export default function AdminDashboard() {
     limit: filter.limit,
   });
   const users = data?.data || [];
-  console.log(filter);
+  const [
+    updateUserRole,
+    { data: result, isSuccess: success, isError: isErr, error: err },
+  ] = useUpdateUsersRoleMutation();
+
+  useEffect(() => {
+    if (success) {
+      toast.success("Successfully blocked", { id: "block" });
+      setSelect([]);
+    }
+    if (isErr) {
+      toast.error(err?.message, { id: "block" });
+    }
+  }, [success, isErr, err]);
+
   if (isLoading) {
     return (
       <div className="h-screen w-full flex justify-center items-center">
@@ -88,17 +107,33 @@ export default function AdminDashboard() {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
+              <th>
+                <span
+                  onClick={() => updateUserRole(select)}
+                  className={`${
+                    select.length === 0
+                      ? "bg-gray-300 text-gray-400 cursor-not-allowed"
+                      : "bg-orange-500 cursor-pointer"
+                  }  px-2 py-1 rounded-lg `}
+                >
+                  Block
+                </span>
+              </th>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
               <th>Age</th>
-              <th></th>
+              <th>status</th>
             </tr>
           </thead>
           <tbody>
             {users?.map((user) => (
-              <DashboardRow user={user} key={user.email} />
+              <DashboardRow
+                user={user}
+                key={user.email}
+                select={select}
+                setSelect={setSelect}
+              />
             ))}
           </tbody>
         </table>

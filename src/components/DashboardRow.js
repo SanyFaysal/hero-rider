@@ -1,12 +1,28 @@
 import React from "react";
 
-const DashboardRow = ({ user }) => {
+const DashboardRow = ({ user, setSelect, select }) => {
+  const handleSelect = (email) => {
+    const isSelected = select?.find((s) => s === email);
+    if (isSelected) {
+      return setSelect([...select.filter((s) => s !== email)]);
+    }
+    if (!isSelected) {
+      return setSelect([...select, email]);
+    }
+  };
   return (
     <>
       <tr>
         <th>
           <label>
-            <input type="checkbox" className="checkbox" />
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={
+                select.find((email) => email === user.email) ? true : false
+              }
+              onChange={() => handleSelect(user.email)}
+            />
           </label>
         </th>
         <td>
@@ -21,13 +37,9 @@ const DashboardRow = ({ user }) => {
             </div>
             <div>
               <div className="font-bold capitalize">{user.fullName}</div>
-              <div
-                className={`text-sm   capitalize 
-                  
-                }`}
-              >
+              <div className={`capitalize }`}>
                 <span
-                  className={`px-2 rounded-lg ${
+                  className={`px-2 rounded font-semibold ${
                     user.role === "learner"
                       ? "bg-orange-50 text-orange-500"
                       : user.role === "admin"
@@ -41,17 +53,23 @@ const DashboardRow = ({ user }) => {
             </div>
           </div>
         </td>
-        <td>
-          {user.email}
-          <br />
-          <span className="badge badge-ghost badge-sm">
-            Desktop Support Technician
-          </span>
-        </td>
+        <td>{user.email}</td>
         <td>{user.phone}</td>
         <td>{user.age}</td>
         <th>
-          <button className="btn btn-ghost btn-xs">details</button>
+          <span
+            className={`
+            px-2 rounded text-md capitalize font-medium
+            ${
+              user.status === "active"
+                ? " text-green-500"
+                : user.status === "blocked"
+                ? " text-red-500"
+                : " text-gray-500"
+            }`}
+          >
+            {user.status}
+          </span>
         </th>
       </tr>
     </>
