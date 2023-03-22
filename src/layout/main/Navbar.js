@@ -41,7 +41,7 @@ export default function Navbar() {
         <ul className="menu menu-horizontal px-1">{li}</ul>
       </div>
       <div className="navbar-end">
-        {user?.email && (
+        {user?.email && user.role === "admin" ? (
           <>
             <Link to="/dashboard" className="mr-4">
               Dashboard
@@ -49,7 +49,7 @@ export default function Navbar() {
             <button onClick={handleLogOut}>Logout</button>
             <div className="ml-4"></div>
 
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end text-black">
               <label tabIndex={0} className="">
                 <span className="capitalize  bg-blue-100 text-blue-500 text-xl rounded-full px-2 py-[1px] ">
                   {user?.fullName ? user?.fullName.slice(0, 1) : "a"}
@@ -67,11 +67,50 @@ export default function Navbar() {
               </ul>
             </div>
           </>
+        ) : (
+          ""
+        )}
+        {user?.email && user.role !== "admin" ? (
+          <>
+            <Link to="/profile" className="mr-4">
+              Profile
+            </Link>
+            <button onClick={handleLogOut}>Logout</button>
+            <div className="ml-4"></div>
+
+            <div className="dropdown dropdown-end text-black">
+              <label tabIndex={0} className="">
+                {/* <span className="capitalize  bg-blue-100 text-blue-500 text-xl rounded-full px-2 py-[1px] ">
+                  {user?.fullName ? user?.fullName.slice(0, 1) : "a"}
+                </span> */}
+                <img
+                  src={`http://localhost:5000/images/${user.profilePicture[0][0].filename}`}
+                  alt=""
+                  className="w-11 h-11 rounded-full  "
+                />
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu px-3 py-5 shadow bg-base-100 rounded-box "
+              >
+                <li className="capitalize text-center">{user?.fullName}</li>
+                <li className="font-thin text-center  bg-gray-500 rounded-xl text-white px-2 my-2">
+                  {user?.email}
+                </li>
+                <li className="capitalize text-center">{user?.role}</li>
+              </ul>
+            </div>
+          </>
+        ) : (
+          ""
         )}
         {!user?.email && (
           <>
             <Link to="/login" className="mr-4">
               Login
+            </Link>
+            <Link to="/signup" className="mr-4">
+              Signup
             </Link>
           </>
         )}

@@ -9,8 +9,10 @@ import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-hot-toast";
 import FIlterDashboard from "../../components/FIlterDashboard";
 import { FiArrowLeft } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 export default function AdminDashboard() {
+  const token = localStorage.getItem("accessToken");
   const [pagination, setPagination] = useState();
   const [select, setSelect] = useState([]);
   const [filter, setFilter] = useState({
@@ -24,6 +26,7 @@ export default function AdminDashboard() {
     limit: filter.limit,
     ageRange: filter.ageRange,
     search: filter.search,
+    token: token,
   });
   const users = data?.data || [];
   const [
@@ -50,9 +53,9 @@ export default function AdminDashboard() {
   }
   return (
     <div>
-      <p className="mx-5 my-3">
+      <Link to="/" className="mx-5 inline-block px-3 rounded-lg py-1 mt-3 ">
         <FiArrowLeft className="inline" /> Back to Home
-      </p>
+      </Link>
       <FIlterDashboard filter={filter} setFilter={setFilter} />
       <div className="overflow-x-auto border rounded-lg mx-5 ">
         <table className="table w-full">
@@ -61,7 +64,7 @@ export default function AdminDashboard() {
             <tr>
               <th>
                 <span
-                  onClick={() => updateUserRole(select)}
+                  onClick={() => updateUserRole({ data: select, token })}
                   className={`${
                     select.length === 0
                       ? "bg-gray-300 text-gray-400 cursor-not-allowed"

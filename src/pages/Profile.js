@@ -14,7 +14,7 @@ const Profile = () => {
         <p className="text-center text-2xl mb-8">Profile</p>
         <div className="flex gap-16">
           <div className="mt-[-15px]">
-            <span className="ml-1"> Profile Picture</span>
+            <span className="ml-1 text-lg"> Profile Picture</span>
             <img
               src={`http://localhost:5000/images/${user.profilePicture[0][0].filename}`}
               alt=""
@@ -52,17 +52,59 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
+      <hr />
+      {user.role === "rider" && (
+        <>
+          <div className="p-5">
+            <div className="flex  gap-16">
+              <div>
+                <span className=""> Car Name</span>
+                <p className="capitalize text-xl  font-medium ">
+                  {user.carName}
+                </p>
+              </div>
+              <div>
+                <span className=""> Car Model</span>
+                <p className="capitalize text-xl  font-medium ">
+                  {user.carModel}
+                </p>
+              </div>
+              <div>
+                <span className=""> Car Name Palate</span>
+                <p className="capitalize text-xl  font-medium ">
+                  {user.namePalate}
+                </p>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </>
+      )}
       <div className="p-5">
         <div className="grid grid-cols-2 gap-10 w-full h-full">
           <div>
-            <span>Nid Picture</span>
+            <span className="text-xl mb-2 inline-block">Nid Card Picture</span>
             <img
               src={`http://localhost:5000/images/${user.nid[0][0].filename}`}
               alt=""
               className="w-full h-full rounded-lg  "
             />
           </div>
+
+          {user.role === "rider" ? (
+            <div>
+              <span className="text-xl mb-2 inline-block">
+                Driving License Picture
+              </span>
+              <img
+                src={`http://localhost:5000/images/${user.drivingLicense[0][0].filename}`}
+                alt=""
+                className="w-full h-full rounded-lg  "
+              />
+            </div>
+          ) : (
+            ""
+          )}
           <div></div>
         </div>
       </div>

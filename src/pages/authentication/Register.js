@@ -9,7 +9,7 @@ const Register = () => {
   return (
     <div className="h-[80vh] ">
       <h1 className="text-center my-7 text-3xl  font-semibold">
-        Register as ...
+        Sign Up as ...
       </h1>
       <div className="flex justify-evenly ">
         <div

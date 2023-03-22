@@ -47,9 +47,8 @@ const DrivingLearnerRegister = () => {
       localStorage.setItem("accessToken", data?.token);
       toast.success("Register success..", { id: "register" });
       reset();
-
       dispatch(setUser(data?.data));
-      navigate("/");
+      navigate("/profile");
     }
     if (isError) {
       toast.error(error?.data?.error, { id: "register" });

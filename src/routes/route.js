@@ -5,9 +5,13 @@ import DrivingLearnerRegister from "../pages/authentication/DrivingLearnerRegist
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import RiderRegister from "../pages/authentication/RiderRegister";
+import Completion from "../pages/Completion";
 
 import Home from "../pages/Home/Home";
+import Payment from "../pages/Payment";
 import Profile from "../pages/Profile";
+import AdminPrivateRoute from "../utils/AdminPrivateRoute";
+import PrivateRoute from "../utils/PrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -28,31 +32,39 @@ const routes = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "payment",
+        element: <Payment />,
+      },
+      {
+        path: "completion",
+        element: <Completion />,
+      },
+      {
         path: "profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "signup/rider",
-        element: (
-          // <PrivateRoute>
-          <RiderRegister />
-        ),
-        // </PrivateRoute>
+        element: <RiderRegister />,
       },
       {
         path: "signup/learner",
-        element: (
-          // <PrivateRoute>
-          <DrivingLearnerRegister />
-        ),
-        // </PrivateRoute>
+        element: <DrivingLearnerRegister />,
       },
     ],
   },
 
   {
     path: "/dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <AdminPrivateRoute>
+        <AdminDashboard />
+      </AdminPrivateRoute>
+    ),
   },
 ]);
 

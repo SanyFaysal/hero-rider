@@ -3,7 +3,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGetMeQuery } from "../features/auth/authApi";
 
-const PrivateRoute = ({ children }) => {
+const AdminPrivateRoute = ({ children }) => {
   const token = localStorage?.getItem("accessToken");
   const { data, isLoading, isSuccess } = useGetMeQuery(token);
   const user = data?.data;
@@ -16,9 +16,15 @@ const PrivateRoute = ({ children }) => {
     return <p>Loading...</p>;
   }
 
-  if (token && user?.email && !isLoading && isSuccess) {
+  if (
+    token &&
+    user?.email &&
+    user.role === "admin" &&
+    !isLoading &&
+    isSuccess
+  ) {
     return children;
   }
 };
 
-export default PrivateRoute;
+export default AdminPrivateRoute;

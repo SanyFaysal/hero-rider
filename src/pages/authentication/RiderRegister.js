@@ -51,7 +51,7 @@ const RiderRegister = () => {
       toast.success("Register success..", { id: "register" });
       reset();
       dispatch(setUser(data?.data));
-      navigate("/");
+      navigate("/profile");
     }
     if (isError) {
       toast.error(error?.data?.error, { id: "register" });
@@ -268,8 +268,8 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  {...register("numberPalate")}
-                  id="numberPalate"
+                  {...register("namePalate")}
+                  id="namePalate"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 />
               </div>

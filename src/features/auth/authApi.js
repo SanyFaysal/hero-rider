@@ -33,17 +33,23 @@ const authApi = apiSlice.injectEndpoints({
     }),
 
     getAllUsers: builder.query({
-      query: ({ page, limit, ageRange, search }) => ({
+      query: ({ page, limit, ageRange, search, token }) => ({
         url: `/user/all?page=${page}&limit=${limit}&age[gte]=${ageRange.gte}&age[lte]=${ageRange.lte}&search=${search}`,
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       }),
       providesTags: ["Users"],
     }),
 
     updateUsersRole: builder.mutation({
-      query: (data) => ({
+      query: ({ data, token }) => ({
         url: "/user/all",
         method: "PATCH",
         body: data,
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       }),
       invalidatesTags: ["Users"],
     }),
