@@ -42,13 +42,14 @@ const DashboardRow = ({ user }) => {
           </div>
         </td>
         <td>
-          Zemlak, Daniel and Leannon
+          {user.email}
           <br />
           <span className="badge badge-ghost badge-sm">
             Desktop Support Technician
           </span>
         </td>
-        <td>Purple</td>
+        <td>{user.phone}</td>
+        <td>{user.age}</td>
         <th>
           <button className="btn btn-ghost btn-xs">details</button>
         </th>
