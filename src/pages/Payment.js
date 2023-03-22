@@ -11,7 +11,7 @@ export default function Payment() {
   const { name } = useParams();
   let amount;
   if (name === "bike-driving") {
-    amount = 15000;
+    amount = 10000;
   }
   if (name === "car-driving") {
     amount = 20000;

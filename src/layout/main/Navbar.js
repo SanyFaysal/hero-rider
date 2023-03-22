@@ -60,7 +60,7 @@ export default function Navbar() {
                 className="dropdown-content menu px-3 py-5 shadow bg-base-100 rounded-box "
               >
                 <li className="capitalize text-center">{user?.fullName}</li>
-                <li className="font-thin text-center  bg-gray-500 rounded-xl text-white px-2 my-2">
+                <li className="font-thin text-center   rounded-xl  px-2 my-2">
                   {user?.email}
                 </li>
                 <li className="capitalize text-center">{user?.role}</li>
@@ -72,6 +72,11 @@ export default function Navbar() {
         )}
         {user?.email && user.role !== "admin" ? (
           <>
+            {user.role === "learner" && (
+              <Link to="/packages" className="mr-4">
+                Packages
+              </Link>
+            )}
             <Link to="/profile" className="mr-4">
               Profile
             </Link>
@@ -94,7 +99,7 @@ export default function Navbar() {
                 className="dropdown-content menu px-3 py-5 shadow bg-base-100 rounded-box "
               >
                 <li className="capitalize text-center">{user?.fullName}</li>
-                <li className="font-thin text-center  bg-gray-500 rounded-xl text-white px-2 my-2">
+                <li className="font-thin text-center   px-2 my-2">
                   {user?.email}
                 </li>
                 <li className="capitalize text-center">{user?.role}</li>

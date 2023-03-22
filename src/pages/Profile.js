@@ -6,7 +6,11 @@ const Profile = () => {
   const user = data.user;
 
   if (!user.profilePicture) {
-    return <p>loading ...</p>;
+    return (
+      <div className="w-full flex justify-center items-center h-[70vh] ">
+        <p>loading ...</p>
+      </div>
+    );
   }
   return (
     <div className=" mt-5 mb-10  mx-12  rounded-lg">

@@ -12,6 +12,7 @@ import Packages from "../pages/Packages";
 import Payment from "../pages/Payment";
 import Profile from "../pages/Profile";
 import AdminPrivateRoute from "../utils/AdminPrivateRoute";
+import LearnerPrivateRoute from "../utils/LearnerPrivateRoute";
 import PrivateRoute from "../utils/PrivateRoute";
 
 const routes = createBrowserRouter([
@@ -34,15 +35,28 @@ const routes = createBrowserRouter([
       },
       {
         path: "packages",
-        element: <Packages />,
+        element: (
+          <LearnerPrivateRoute>
+            <Packages />
+          </LearnerPrivateRoute>
+        ),
       },
+
       {
         path: "packages/:name",
-        element: <Payment />,
+        element: (
+          <LearnerPrivateRoute>
+            <Payment />
+          </LearnerPrivateRoute>
+        ),
       },
       {
         path: "completion",
-        element: <Completion />,
+        element: (
+          <LearnerPrivateRoute>
+            <Completion />
+          </LearnerPrivateRoute>
+        ),
       },
       {
         path: "profile",
