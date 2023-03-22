@@ -1,7 +1,14 @@
 import React from "react";
 
 const Home = () => {
-  return <div>Welcome to hero rider</div>;
+  return (
+    <div className="">
+      <div className="h-[70vh] flex justify-center items-center">
+        {" "}
+        Welcome to hero rider
+      </div>
+    </div>
+  );
 };
 
 export default Home;

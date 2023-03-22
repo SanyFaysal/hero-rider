@@ -5,8 +5,10 @@ import {
 } from "../../features/auth/authApi";
 import DashboardRow from "../../components/DashboardRow";
 import Pagination from "../../components/Pagination";
-import { FiSearch } from "react-icons/fi";
+import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-hot-toast";
+import FIlterDashboard from "../../components/FIlterDashboard";
+import { FiArrowLeft } from "react-icons/fi";
 
 export default function AdminDashboard() {
   const [pagination, setPagination] = useState();
@@ -17,15 +19,11 @@ export default function AdminDashboard() {
     limit: 10,
   });
 
-  console.log(filter);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFilter({ ...filter, filter: e.target.search.value });
-  };
   const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery({
     page: pagination,
     limit: filter.limit,
     ageRange: filter.ageRange,
+    search: filter.search,
   });
   const users = data?.data || [];
   const [
@@ -52,63 +50,10 @@ export default function AdminDashboard() {
   }
   return (
     <div>
-      <div className="sticky top-0 z-30 border flex justify-between mx-5 my-4 px-6 py-4 rounded-lg items-center bg-gray-100 ">
-        <div>
-          <label htmlFor="">Limit</label>
-          <select
-            name=""
-            onChange={(e) => setFilter({ ...filter, limit: e.target.value })}
-            className=" border focus:outline-none px-2 ml-2 py-2 rounded"
-          >
-            <option value={5}>5</option>
-            <option selected value={10}>
-              10
-            </option>
-            <option value={15}>15</option>
-          </select>
-        </div>
-        <div className="flex gap-x-8 items-center">
-          <div>
-            <p>Filter by age</p>
-            <select
-              onChange={(e) => {
-                const age = e.target.value.split(",");
-                setFilter({
-                  ...filter,
-                  ageRange: { gte: age[0], lte: age[1] },
-                });
-              }}
-              id=""
-              className=" border focus:outline-none px-2 py-2 rounded"
-            >
-              <option value={[0, 100]}>All</option>
-              <option value={[0, 18]}>0 - 18 </option>
-              <option value={[18, 25]}>18 - 25</option>
-              <option value={[25, 30]}>25 - 30</option>
-              <option value={[30, 35]}>30 - 35</option>
-              <option value={[35, 40]}>35 - 40</option>
-              <option value={[40, 100]}>40 - 100</option>
-            </select>
-          </div>
-
-          <div>
-            <p>Filter By Name, Email, Phone</p>
-            <form onSubmit={handleSubmit} className="input-group">
-              <input
-                type="text"
-                name="search"
-                className=" border focus:outline-none px-4 py-2 rounded-lg"
-              />
-              <button
-                type="submit"
-                className="bg-green-500 border focus:outline-none px-4 py-2 rounded-lg"
-              >
-                <FiSearch />
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <p className="mx-5 my-3">
+        <FiArrowLeft className="inline" /> Back to Home
+      </p>
+      <FIlterDashboard filter={filter} setFilter={setFilter} />
       <div className="overflow-x-auto border rounded-lg mx-5 ">
         <table className="table w-full">
           {/* head */}

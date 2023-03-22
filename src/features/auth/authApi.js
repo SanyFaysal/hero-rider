@@ -33,8 +33,8 @@ const authApi = apiSlice.injectEndpoints({
     }),
 
     getAllUsers: builder.query({
-      query: ({ page, limit, ageRange }) => ({
-        url: `/user/all?page=${page}&limit=${limit}&age[gte]=${ageRange.gte}&age[lte]=${ageRange.lte}`,
+      query: ({ page, limit, ageRange, search }) => ({
+        url: `/user/all?page=${page}&limit=${limit}&age[gte]=${ageRange.gte}&age[lte]=${ageRange.lte}&search=${search}`,
       }),
       providesTags: ["Users"],
     }),
