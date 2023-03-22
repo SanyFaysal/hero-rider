@@ -1,10 +1,23 @@
 import React from "react";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { logOut } from "../../features/auth/authSlice";
+
 export default function Navbar() {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  // const isHome = pathname === '/' || pathname === '/home';
+  const handleLogOut = () => {
+    localStorage.removeItem("accessToken");
+    dispatch(logOut());
+    toast.success("Logout Successful");
+  };
+  console.log(user);
   const li = (
     <>
-      <Link to="/">
+      {/* <Link to="/">
         <li className="mx-3 ">Jobs</li>
       </Link>
       <Link to="/">
@@ -12,7 +25,7 @@ export default function Navbar() {
       </Link>
       <Link to="/">
         <li className="mx-3 ">Contact</li>
-      </Link>
+      </Link> */}
     </>
   );
   return (
@@ -28,16 +41,7 @@ export default function Navbar() {
         <ul className="menu menu-horizontal px-1">{li}</ul>
       </div>
       <div className="navbar-end">
-        {/* {user?.email && !user?.role && (
-          <>
-            <Link to="/register" className="mr-4">
-              Register
-            </Link>
-            <button onClick={handleLogOut}>Logout</button>
-          </>
-        )} */}
-
-        {/* {user?.email && user?.role && (
+        {user?.email && (
           <>
             <Link to="/dashboard" className="mr-4">
               Dashboard
@@ -48,7 +52,7 @@ export default function Navbar() {
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="">
                 <span className="capitalize  bg-blue-100 text-blue-500 text-xl rounded-full px-2 py-[1px] ">
-                  {user?.fullName.slice(0, 1)}
+                  {user?.fullName ? user?.fullName.slice(0, 1) : "a"}
                 </span>
               </label>
               <ul
@@ -63,14 +67,14 @@ export default function Navbar() {
               </ul>
             </div>
           </>
-        )} */}
-        {/* {!user?.email && (
+        )}
+        {!user?.email && (
           <>
             <Link to="/login" className="mr-4">
               Login
             </Link>
           </>
-        )} */}
+        )}
         <div className="dropdown  dropdown-end">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
             {/* <BsList /> */}

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSignupMutation } from "../../features/auth/authApi";
+import { setUser } from "../../features/auth/authSlice";
 // import { useDispatch, useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 // import { useUserRegisterMutation } from "../../features/auth/authApi";
@@ -11,59 +15,47 @@ const DrivingLearnerRegister = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
   const { handleSubmit, register, reset } = useForm();
-  //   const {
-  //     user: { email, fullName, _id },
-  //   } = useSelector((state) => state.auth);
-  //   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   const [employeeRegister, { data, isLoading, isSuccess, isError, error }] =
-  //     useUserRegisterMutation();
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [learnerRegister, { data, isLoading, isSuccess, isError, error }] =
+    useSignupMutation();
   const onSubmit = (data) => {
-    // const {
-    //   fullName,
-    //   gender,
-    //   companyLocation,
-    //   companyCategory,
-    //   companyName,
-    //   companyWebsite,
-    //   contactNumber,
-    //   country,
-    //   employeeRange,
-    //   roleInCompany,
-    // } = data;
-    // const user = {
-    //   fullName,
-    //   gender,
-    //   //   email: email,
-    //   role: "employee",
-    //   contactNumber,
-    //   country,
-    //   company: {
-    //     companyName,
-    //     companyCategory,
-    //     companyLocation,
-    //     companyWebsite,
-    //     roleInCompany,
-    //     employeeRange,
-    //   },
-    // };
-    console.log({ data });
-    // employeeRegister({ id: _id, user });
-  };
+    if (data.password !== data.confirmPassword) {
+      return toast.error("Password and confirm password not matched !!", {
+        id: "register",
+      });
+    }
+    data.role = "learner";
+    let formData = new FormData();
+    formData.append("fullName", data?.fullName);
+    formData.append("email", data?.email);
+    formData.append("age", data?.age);
+    formData.append("gender", data?.gender);
+    formData.append("phone", data?.phone);
+    formData.append("address", data?.address);
+    formData.append("image", data?.profilePicture[0]);
+    formData.append("image", data?.nid[0]);
+    formData.append("vehicleType", data?.vehicleType);
+    formData.append("password", data?.password);
+    formData.append("role", data?.role);
 
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       toast.success("Register success..", { id: "register" });
-  //       reset();
-  //       dispatch(setUser(data?.data));
-  //       navigate("/");
-  //     }
-  //     if (isError) {
-  //       toast.error(error?.data?.error, { id: "register" });
-  //     }
-  //   }, [isSuccess, isError, error, navigate, reset, data, dispatch]);
-  //   console.log({ data, isLoading, isSuccess, isError, error });
+    learnerRegister(formData);
+  };
+  console.log(data?.data);
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem("accessToken", data?.token);
+      toast.success("Register success..", { id: "register" });
+      reset();
+
+      dispatch(setUser(data?.data));
+      navigate("/");
+    }
+    if (isError) {
+      toast.error(error?.data?.error, { id: "register" });
+    }
+  }, [isSuccess, isError, error, navigate, reset, data, dispatch]);
+  console.log({ data, isLoading, isSuccess, isError, error });
   return (
     <div className="">
       <div className="flex justify-center items-center  my-4">
@@ -71,6 +63,7 @@ const DrivingLearnerRegister = () => {
           <form
             className=" mx-4 shadow-2lg lg:p-8 p-4 bg-white border rounded-2xl  gap-3  justify-between"
             onSubmit={handleSubmit(onSubmit)}
+            enctype="multipart/form-data"
           >
             <h1 className="w-full text-2xl text-center mb-5 font-semibold ">
               Register as{" "}

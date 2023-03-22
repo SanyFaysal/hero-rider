@@ -2,35 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import sideImg from "../../assets/images/login-animate.gif";
-// import { useLoginMutation } from '../../features/auth/authApi';
-// import { setUser } from '../../features/auth/authSlice';
+import { useGetMeQuery, useLoginMutation } from "../../features/auth/authApi";
+import { setUser } from "../../features/auth/authSlice";
+
 const Login = () => {
   const { handleSubmit, register } = useForm();
-  //   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   const [loginUser, { data, isSuccess, isError, error }] =
-  //     useLoginMutation();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loginUser, { data, isSuccess, isError, error }] = useLoginMutation();
 
   const [open, setOpen] = useState(false);
   const onSubmit = (data) => {
-    // loginUser(data);
+    loginUser(data);
   };
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       localStorage.setItem('accessToken', data.token);
-  //       toast.success('Success', { id: 'login' });
-  //       navigate('/')
-  //       dispatch(setUser(data?.data))
-  //     }
-  //     if (isError) {
-  //       toast.error(error?.data?.error, { id: 'login' })
+  console.log(data);
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem("accessToken", data.token);
+      toast.success("Success", { id: "login" });
+      dispatch(setUser(data?.data));
+      navigate("/");
+    }
+    if (isError) {
+      toast.error(error?.data?.error, { id: "login" });
+    }
+  }, [isSuccess, data, navigate, dispatch, isError, error]);
 
-  //     }
-  //   }, [isSuccess, data, navigate, dispatch, isError, error]);
-  //   console.log(error?.data?.error);
   return (
     <div className="h-[90vh]  w-full grid lg:grid-cols-11 duration-700 ease-in">
       <div className="lg:col-span-6 px-1  lg:block hidden">

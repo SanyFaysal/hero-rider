@@ -2,74 +2,69 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-// import { useDispatch, useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-// import { useUserRegisterMutation } from "../../features/auth/authApi";
-// import { setUser } from "../../features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  useSignupMutation,
+  useUserRegisterMutation,
+} from "../../features/auth/authApi";
+import { setUser } from "../../features/auth/authSlice";
 
 const RiderRegister = () => {
   const [open, setOpen] = useState(false);
   const [open1, setOpen1] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const { handleSubmit, register, reset } = useForm();
   //   const {
   //     user: { email, fullName, _id },
   //   } = useSelector((state) => state.auth);
-  //   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   const [employeeRegister, { data, isLoading, isSuccess, isError, error }] =
-  //     useUserRegisterMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [riderRegister, { data, isLoading, isSuccess, isError, error }] =
+    useSignupMutation();
 
   const onSubmit = (data) => {
-    // const {
-    //   fullName,
-    //   gender,
-    //   companyLocation,
-    //   companyCategory,
-    //   companyName,
-    //   companyWebsite,
-    //   contactNumber,
-    //   country,
-    //   employeeRange,
-    //   roleInCompany,
-    // } = data;
-    // const user = {
-    //   fullName,
-    //   gender,
-    //   //   email: email,
-    //   role: "employee",
-    //   contactNumber,
-    //   country,
-    //   company: {
-    //     companyName,
-    //     companyCategory,
-    //     companyLocation,
-    //     companyWebsite,
-    //     roleInCompany,
-    //     employeeRange,
-    //   },
-    // };
-    console.log({ data });
-    // employeeRegister({ id: _id, user });
+    data.role = "rider";
+    let formData = new FormData();
+    formData.append("fullName", data?.fullName);
+    formData.append("email", data?.email);
+    formData.append("age", data?.age);
+    formData.append("gender", data?.gender);
+    formData.append("phone", data?.phone);
+    formData.append("address", data?.address);
+    formData.append("image", data?.profilePicture[0]);
+    formData.append("image", data?.nid[0]);
+    formData.append("image", data?.drivingLicense[0]);
+    formData.append("area", data?.area);
+    formData.append("carName", data?.carName);
+    formData.append("carModel", data?.carModel);
+    formData.append("namePalate", data?.namePalate);
+    formData.append("vehicleType", data?.vehicleType);
+    formData.append("password", data?.password);
+    formData.append("role", data?.role);
+    riderRegister(formData);
   };
 
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       toast.success("Register success..", { id: "register" });
-  //       reset();
-  //       dispatch(setUser(data?.data));
-  //       navigate("/");
-  //     }
-  //     if (isError) {
-  //       toast.error(error?.data?.error, { id: "register" });
-  //     }
-  //   }, [isSuccess, isError, error, navigate, reset, data, dispatch]);
-  //   console.log({ data, isLoading, isSuccess, isError, error });
+  useEffect(() => {
+    if (isSuccess) {
+      localStorage.setItem("accessToken", data?.token);
+      toast.success("Register success..", { id: "register" });
+      reset();
+      dispatch(setUser(data?.data));
+      navigate("/");
+    }
+    if (isError) {
+      toast.error(error?.data?.error, { id: "register" });
+    }
+  }, [isSuccess, isError, error, navigate, reset, data, dispatch]);
+  console.log({ data, isLoading, isSuccess, isError, error });
   return (
     <div className="">
-      <div className="flex justify-center items-center  my-4">
+      <div className="flex justify-center items-center  mt-2">
         <div className=" p-2 rounded-2xl">
           <form
-            className=" mx-4 shadow-2lg lg:p-8 p-4 bg-white border rounded-2xl  gap-3  justify-between"
+            className=" mx-4 shadow-2lg lg:p-8 p-3 bg-white border rounded-2xl  gap-3  justify-between"
+            enctype="multipart/form-data"
             onSubmit={handleSubmit(onSubmit)}
           >
             <h1 className="w-full text-2xl text-center mb-5 font-semibold ">
@@ -82,7 +77,7 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  required
+                  //
                   //   defaultValue={fullName}
                   id="fullName"
                   {...register("fullName")}
@@ -114,7 +109,6 @@ const RiderRegister = () => {
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 />
               </div>
-
               <div>
                 <h1 className="mb-2">Gender</h1>
                 <div className="flex gap-3">
@@ -122,7 +116,7 @@ const RiderRegister = () => {
                     <input
                       type="radio"
                       id="male"
-                      required
+                      //
                       {...register("gender")}
                       value="male"
                       className="radio radio-sm "
@@ -164,7 +158,6 @@ const RiderRegister = () => {
                 <input
                   type="text"
                   id="phone"
-                  required
                   {...register("phone")}
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 />
@@ -176,7 +169,6 @@ const RiderRegister = () => {
                 <input
                   type="text"
                   id="address"
-                  required
                   {...register("address")}
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 />
@@ -190,7 +182,7 @@ const RiderRegister = () => {
                 <select
                   {...register("country")}
                   id="country"
-                  required
+                  
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 >
                   {countries
@@ -208,7 +200,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="file"
-                  required
                   {...register("profilePicture")}
                   id="profilePicture"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -220,7 +211,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="file"
-                  required
                   {...register("drivingLicense")}
                   id="drivingLicense"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -232,7 +222,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="file"
-                  required
                   {...register("nid")}
                   id="nid"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -244,7 +233,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  required
                   {...register("area")}
                   id="area"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -258,7 +246,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  required
                   {...register("carName")}
                   id="carName"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -270,7 +257,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  required
                   {...register("carModel")}
                   id="carModel"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -282,7 +268,6 @@ const RiderRegister = () => {
                 </label>
                 <input
                   type="text"
-                  required
                   {...register("numberPalate")}
                   id="numberPalate"
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
@@ -295,7 +280,7 @@ const RiderRegister = () => {
                 <select
                   {...register("vehicleType")}
                   id="vehicleType"
-                  required
+                  //
                   className={` w-full bg-blue-50    focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 px-4 py-3 rounded-lg`}
                 >
                   <option value="car">Car</option>
@@ -357,11 +342,23 @@ const RiderRegister = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex  justify-end  mt-8">
+              <div className="lg:col-span-4 md:col-span-3 sm:col-span-1 flex   justify-between ">
+                <div className="flex  w-full max-w-xs">
+                  <input
+                    type="checkbox"
+                    {...register("term")}
+                    id="terms"
+                    //
+                    onClick={() => setAcceptTerms(!acceptTerms)}
+                    className="checkbox mr-3"
+                  />
+                  <label for="terms">I agree to terms and conditions</label>
+                </div>
                 <input
                   type="submit"
+                  disabled={!acceptTerms ? true : false}
                   value="Register"
-                  className="btn inline w-2/4"
+                  className="btn inline"
                 />
               </div>
             </div>

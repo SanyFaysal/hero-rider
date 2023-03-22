@@ -3,11 +3,13 @@ import apiSlice from "../api/apiSlice";
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     signup: builder.mutation({
-      query: (data) => ({
-        url: "/user/signup",
-        method: "POST",
-        body: data,
-      }),
+      query: (formData) => {
+        return {
+          url: "/user/signup",
+          method: "POST",
+          body: formData,
+        };
+      },
       invalidatesTags: ["User"],
     }),
     login: builder.mutation({
@@ -15,14 +17,6 @@ const authApi = apiSlice.injectEndpoints({
         url: "/user/login",
         method: "POST",
         body: data,
-      }),
-      invalidatesTags: ["User"],
-    }),
-    userRegister: builder.mutation({
-      query: ({ id, user }) => ({
-        url: `/user/register/${id}`,
-        method: "PATCH",
-        body: user,
       }),
       invalidatesTags: ["User"],
     }),
@@ -36,11 +30,11 @@ const authApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    getApplicant: builder.query({
-      query: (id) => ({
-        url: `/user/candidate/${id}`,
+    getAllUsers: builder.query({
+      query: ({ page, limit }) => ({
+        url: `/user/all?page=${page}&limit=${limit}`,
       }),
-      providesTags: ["User"],
+      providesTags: ["Users"],
     }),
   }),
 });
@@ -48,7 +42,6 @@ const authApi = apiSlice.injectEndpoints({
 export const {
   useSignupMutation,
   useLoginMutation,
-  useUserRegisterMutation,
+  useGetAllUsersQuery,
   useGetMeQuery,
-  useGetApplicantQuery,
 } = authApi;

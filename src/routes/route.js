@@ -1,11 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
+import AdminDashboard from "../layout/dashboard/AdminDashboard";
 import Main from "../layout/main/Main";
 import DrivingLearnerRegister from "../pages/authentication/DrivingLearnerRegister";
 import Login from "../pages/authentication/Login";
 import Register from "../pages/authentication/Register";
 import RiderRegister from "../pages/authentication/RiderRegister";
-import Signup from "../pages/authentication/Signup";
+
 import Home from "../pages/Home/Home";
+import Profile from "../pages/Profile";
 
 const routes = createBrowserRouter([
   {
@@ -16,20 +18,21 @@ const routes = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
+
       {
         path: "login",
         element: <Login />,
       },
       {
-        path: "register",
+        path: "signup",
         element: <Register />,
       },
       {
-        path: "register/rider",
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "signup/rider",
         element: (
           // <PrivateRoute>
           <RiderRegister />
@@ -37,7 +40,7 @@ const routes = createBrowserRouter([
         // </PrivateRoute>
       },
       {
-        path: "register/learner",
+        path: "signup/learner",
         element: (
           // <PrivateRoute>
           <DrivingLearnerRegister />
@@ -45,6 +48,11 @@ const routes = createBrowserRouter([
         // </PrivateRoute>
       },
     ],
+  },
+
+  {
+    path: "/dashboard",
+    element: <AdminDashboard />,
   },
 ]);
 
