@@ -12,6 +12,7 @@ const authApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["User"],
     }),
+
     login: builder.mutation({
       query: (data) => ({
         url: "/user/login",
@@ -30,12 +31,14 @@ const authApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+
     getAllUsers: builder.query({
-      query: ({ page, limit, selectedUser }) => ({
-        url: `/user/all?page=${page}&limit=${limit}`,
+      query: ({ page, limit, ageRange }) => ({
+        url: `/user/all?page=${page}&limit=${limit}&age[gte]=${ageRange.gte}&age[lte]=${ageRange.lte}`,
       }),
       providesTags: ["Users"],
     }),
+
     updateUsersRole: builder.mutation({
       query: (data) => ({
         url: "/user/all",

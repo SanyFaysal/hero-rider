@@ -13,9 +13,11 @@ export default function AdminDashboard() {
   const [select, setSelect] = useState([]);
   const [filter, setFilter] = useState({
     search: "",
-    ageRange: "",
+    ageRange: { gte: 0, lte: 100 },
     limit: 10,
   });
+
+  console.log(filter);
   const handleSubmit = (e) => {
     e.preventDefault();
     setFilter({ ...filter, filter: e.target.search.value });
@@ -23,6 +25,7 @@ export default function AdminDashboard() {
   const { data, isLoading, isSuccess, isError, error } = useGetAllUsersQuery({
     page: pagination,
     limit: filter.limit,
+    ageRange: filter.ageRange,
   });
   const users = data?.data || [];
   const [
@@ -68,19 +71,23 @@ export default function AdminDashboard() {
           <div>
             <p>Filter by age</p>
             <select
-              onChange={(e) =>
-                setFilter({ ...filter, ageRange: e.target.value })
-              }
+              onChange={(e) => {
+                const age = e.target.value.split(",");
+                setFilter({
+                  ...filter,
+                  ageRange: { gte: age[0], lte: age[1] },
+                });
+              }}
               id=""
               className=" border focus:outline-none px-2 py-2 rounded"
             >
-              <option value="">All</option>
-              <option value="<18">{` <18 `}</option>
-              <option value="18 - 25">18 - 25</option>
-              <option value="25 - 30">25 - 30</option>
-              <option value="30 - 35">30 - 35</option>
-              <option value="35 - 40">35 - 40</option>
-              <option value=">40">{` >40`}</option>
+              <option value={[0, 100]}>All</option>
+              <option value={[0, 18]}>0 - 18 </option>
+              <option value={[18, 25]}>18 - 25</option>
+              <option value={[25, 30]}>25 - 30</option>
+              <option value={[30, 35]}>30 - 35</option>
+              <option value={[35, 40]}>35 - 40</option>
+              <option value={[40, 100]}>40 - 100</option>
             </select>
           </div>
 
