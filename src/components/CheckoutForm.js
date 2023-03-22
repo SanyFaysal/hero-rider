@@ -39,7 +39,7 @@ export default function CheckoutForm() {
           id="submit"
           type="submit"
           value={isProcessing ? "Processing..." : "Pay Now"}
-          className="btn btn-success inline-block mt-4 ml-auto"
+          className="bg-green-100 hover:cursor-pointer px-3 py-2 rounded-lg font-semibold text-green-500 mt-5 ml-auto"
         />
 
         {/* <span>{isProcessing ? "Processing..." : "Pay Now"}</span> */}

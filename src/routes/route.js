@@ -8,6 +8,7 @@ import RiderRegister from "../pages/authentication/RiderRegister";
 import Completion from "../pages/Completion";
 
 import Home from "../pages/Home/Home";
+import Packages from "../pages/Packages";
 import Payment from "../pages/Payment";
 import Profile from "../pages/Profile";
 import AdminPrivateRoute from "../utils/AdminPrivateRoute";
@@ -32,7 +33,11 @@ const routes = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "payment",
+        path: "packages",
+        element: <Packages />,
+      },
+      {
+        path: "packages/:name",
         element: <Payment />,
       },
       {
